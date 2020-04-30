@@ -21,6 +21,7 @@
     <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
     <spring-retry.version>1.2.5.RELEASE</spring-retry.version>
     <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
+    <springdoc.version>1.3.6</springdoc.version>
   </properties>
 
   <dependencies>
@@ -56,6 +57,31 @@
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-client</artifactId>
       <version>${spring-boot-admin-starter-client.version}</version>
+    </dependency>
+
+    <!-- Swagger -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-webflux-core</artifactId>
+      <version>${springdoc.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-webflux-ui</artifactId>
+      <version>${springdoc.version}</version>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
