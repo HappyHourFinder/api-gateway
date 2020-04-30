@@ -3,7 +3,51 @@ version: 2.1
 orbs:
   maven: circleci/maven@1.0.0
 
+executors:
+  executor-java:
+    docker:
+      - image: circleci/openjdk:13-jdk-buster
+        environment:
+          PROJECT: happyhourfinder
+          MAVEN_OPTS: -Xmx3200m
+
+jobs:
+  build_and_publish:
+    executor: executor-java
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-
+      - setup_remote_docker
+      - run:
+          name: Packaging
+          command: mvn package -DskipTests
+      - save_cache:
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+          paths:
+            - ~/.m2
+      - run:
+          name: Build Docker Image
+          command: docker build -t $PROJECT/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Push Docker Image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $PROJECT/$CIRCLE_PROJECT_REPONAME
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            docker tag $PROJECT/$CIRCLE_PROJECT_REPONAME $PROJECT/$CIRCLE_PROJECT_REPONAME:${VERSION}
+            docker push $PROJECT/$CIRCLE_PROJECT_REPONAME:${VERSION}
+
 workflows:
   maven_test:
     jobs:
       - maven/test
+      - build_and_publish:
+          requires:
+            - maven/test
+          filters:
+            branches:
+              only:
+                - master
