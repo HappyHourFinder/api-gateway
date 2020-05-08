@@ -1,35 +1,27 @@
 package com.mathieuaime.hhf.gateway.config;
 
-import org.springdoc.core.GroupedOpenApi;
-import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/*
+  TODO
+
+  If we set a list of GroupedOpenApi, we don't have the list of definitions
+  and /v3/api-docs/bars does not redirect to /bars/v3/api-docs
+
+  If we set the GroupedOpenApi one by one, we have the list of definitions
+  and /v3/api-docs/bars does not redirect to /bars/v3/api-docs
+
+  If we set nothing, we don't have the list of definitions
+  and /v3/api-docs/bars redirect well to /bars/v3/api-docs
+ */
 @Configuration
 public class DocumentationConfig {
-
-  private final RouteDefinitionLocator locator;
-
-  public DocumentationConfig(RouteDefinitionLocator locator) {
-    this.locator = locator;
-  }
-
-  @Bean
-  public GroupedOpenApi openApiBar() {
-    return GroupedOpenApi.builder()
-        .setGroup("bars")
-        .pathsToMatch("/bars/**")
-        .build();
-  }
-
-  @Bean
-  public GroupedOpenApi openApiHappyHour() {
-    return GroupedOpenApi.builder()
-        .setGroup("happyhours")
-        .pathsToMatch("/happyhours/**")
-        .build();
-  }
-
+//  private final RouteDefinitionLocator locator;
+//
+//  public DocumentationConfig(RouteDefinitionLocator locator) {
+//    this.locator = locator;
+//  }
+//
 //  @Bean
 //  public List<GroupedOpenApi> apis() {
 //    return locator.getRouteDefinitions()
