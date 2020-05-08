@@ -6,7 +6,7 @@ RUN mvn dependency:go-offline
 COPY src /tmp/src/
 RUN mvn package
 
-FROM adoptopenjdk/openjdk13:alpine-jre
+FROM adoptopenjdk/openjdk13-openj9
 LABEL maintainer="aime.mathieu1@gmail.com"
 
 COPY --from=BUILDER /tmp/target/*.jar app.jar

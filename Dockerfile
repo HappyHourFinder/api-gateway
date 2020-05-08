@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk13:alpine-jre
+FROM adoptopenjdk/openjdk13-openj9
 
 LABEL maintainer="aime.mathieu1@gmail.com"
 
