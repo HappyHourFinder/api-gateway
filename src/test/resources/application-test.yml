@@ -1,0 +1,8 @@
+spring:
+  security.oauth2.client:
+    provider.keycloak:
+      issuer-uri: http://localhost:18090/auth/realms/hhf
+      user-name-attribute: preferred_username
+    registration.keycloak:
+      client-id: hhf-api
+      client-secret: secret
